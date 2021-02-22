@@ -1,14 +1,13 @@
 import DependencyInjection from "./dependency-injection";
-import Config, { DEPENDENCIES, DEFINITIONS } from '../config/dependencies';
 
 export default class DependencyAware {
-    di: DependencyInjection;
+  private di: DependencyInjection;
 
-    constructor(di: DependencyInjection) {
-        this.di = di;
-    }
+  constructor(di: DependencyInjection) {
+    this.di = di;
+  }
 
-    getContainer = (): DependencyInjection => {
-        return this.di;
-    }
+  getContainer = (): DependencyInjection => {
+    return this.di;
+  };
 }

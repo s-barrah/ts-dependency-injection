@@ -1,64 +1,63 @@
 // Config
-import { DEPENDENCIES, DEFINITIONS } from '../config/dependencies';
+import { DEPENDENCIES, DEFINITIONS } from "../config/dependencies";
 
 // Types
 import { IGeneric } from "../types/generic";
 
 type ConfigType = IGeneric<any>;
-// type ConfigType = { DEPENDENCIES: IGeneric<any> }
 
 export default class DependencyInjection {
-    dependencies: IGeneric<any>;
-    configuration: ConfigType;
+  private dependencies: IGeneric<any>;
 
-    constructor(configuration: ConfigType) {
-        this.dependencies = {};
-        this.configuration = configuration;
-        this.register(configuration)
-    }
-    /**
-     * Register Dependencies
-     * @return {*}
-     */
-    register = (configuration: ConfigType) => {
-        // Iterate over dependencies and add to container
-        Object.keys(DEFINITIONS).forEach((dependencyKey) => {
-            this.dependencies[dependencyKey] = new DEPENDENCIES[dependencyKey](
-                this,
-            );
-        });
+  private configuration: ConfigType;
 
-        // Iterate over child dependencies and add to container
-        if (typeof configuration.DEPENDENCIES !== 'undefined') {
-            Object.keys(configuration.DEPENDENCIES).forEach((dependencyKey) => {
-                this.dependencies[dependencyKey] = new configuration.DEPENDENCIES[
-                    dependencyKey
-                    ](this);
-            });
-        }
-    }
+  constructor(configuration: ConfigType) {
+    this.dependencies = {};
+    this.configuration = configuration;
+    this.register(configuration);
+  }
 
-    /**
-     * Get Dependency
-     * @param definition
-     * @return {*}
-     */
-    get = (definition: string) => {
-        if (!this.dependencies[definition]) {
-            throw Error(`${definition} does not exist in di container`);
-        }
-        return this.dependencies[definition];
-    }
+  /**
+   * Register Dependencies
+   * @return {*}
+   */
+  register = (configuration: ConfigType) => {
+    // Iterate over dependencies and add to container
+    Object.keys(DEFINITIONS).forEach((dependencyKey) => {
+      this.dependencies[dependencyKey] = new DEPENDENCIES[dependencyKey](this);
+    });
 
-    /**
-     * Get Configuration
-     * @param configType
-     * @return {*}
-     */
-    getConfiguration = (configType: string) => {
-        if (configType && !this.configuration[configType]) {
-            return null
-        }
-        return this.configuration[configType] || this.configuration;
+    // Iterate over child dependencies and add to container
+    if (typeof configuration.DEPENDENCIES !== "undefined") {
+      Object.keys(configuration.DEPENDENCIES).forEach((dependencyKey) => {
+        this.dependencies[dependencyKey] = new configuration.DEPENDENCIES[
+          dependencyKey
+        ](this);
+      });
     }
+  };
+
+  /**
+   * Get Dependency
+   * @param definition
+   * @return {*}
+   */
+  get = (definition: string) => {
+    if (!this.dependencies[definition]) {
+      throw Error(`${definition} does not exist in di container`);
+    }
+    return this.dependencies[definition];
+  };
+
+  /**
+   * Get Configuration
+   * @param configType
+   * @return {*}
+   */
+  getConfiguration = (configType: string) => {
+    if (configType && !this.configuration[configType]) {
+      return null;
+    }
+    return this.configuration[configType] || this.configuration;
+  };
 }
