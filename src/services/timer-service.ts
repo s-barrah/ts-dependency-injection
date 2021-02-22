@@ -1,7 +1,7 @@
 import DependencyAware from "../dependency-injection/dependency-aware";
 import DependencyInjection from "../dependency-injection/dependency-injection";
 
-import { DEFINITIONS } from "..";
+import Config from "../config/dependencies";
 
 type Timer = { [index: string]: number };
 
@@ -28,9 +28,9 @@ export default class TimerService extends DependencyAware {
   stop(identifier: string) {
     if (typeof this.timers[identifier] !== "undefined") {
       const duration = new Date().getTime() - this.timers[identifier];
-
+      const definitions = new Config().getDefinitions();
       this.getContainer()
-        .get(DEFINITIONS.LOGGER)
+        .get(definitions.LOGGER)
         .info(`Timing - ${identifier} took ${duration}ms to complete`);
       return duration;
     }

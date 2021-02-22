@@ -2,21 +2,28 @@ import LoggerService from "../services/logger-service";
 import TimerService from "../services/timer-service";
 import MailService from "../services/mail-service";
 
-import { IGeneric } from "../types/generic";
+type Definitions = { [index: string]: string };
 
-export const DEFINITIONS: IGeneric<string> = {
-  LOGGER: "LOGGER",
-  TIMER: "TIMER",
-  MAIL: "MAIL",
-};
+export default class Config {
+  private definitions: Definitions;
 
-export const DEPENDENCIES: IGeneric<any> = {
-  [DEFINITIONS.LOGGER]: LoggerService,
-  [DEFINITIONS.TIMER]: TimerService,
-  [DEFINITIONS.MAIL]: MailService,
-};
+  constructor() {
+    this.definitions = {
+      LOGGER: "LOGGER",
+      TIMER: "TIMER",
+      MAIL: "MAIL",
+    };
+  }
 
-export default {
-  DEFINITIONS,
-  DEPENDENCIES,
-};
+  getDefinitions() {
+    return this.definitions;
+  }
+
+  getDependencies() {
+    return {
+      [this.definitions.LOGGER]: LoggerService,
+      [this.definitions.TIMER]: TimerService,
+      [this.definitions.MAIL]: MailService,
+    };
+  }
+}

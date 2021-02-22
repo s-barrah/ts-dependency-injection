@@ -1,8 +1,4 @@
-export {
-  default as CONFIGURATION,
-  DEPENDENCIES,
-  DEFINITIONS,
-} from "./config/dependencies";
+export { default as Config } from "./config/dependencies";
 
 // DependencyInjection
 export { default as DependencyAware } from "./dependency-injection/dependency-aware";

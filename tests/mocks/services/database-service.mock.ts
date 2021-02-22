@@ -1,8 +1,8 @@
 import {
+    Config,
     DependencyInjection,
     DependencyAware,
     PromisifiedDelay,
-    DEFINITIONS
 } from "../../../src";
 
 
@@ -17,14 +17,15 @@ export default class DatabaseServiceMock extends DependencyAware {
     connect = (): Promise<string> => {
         return new Promise((resolve, reject) => {
             const timerId = 'db_connect';
+            const definitions = new Config().getDefinitions();
             this.getContainer()
-                .get(DEFINITIONS.TIMER)
+                .get(definitions.TIMER)
                 .start(timerId);
             return new PromisifiedDelay()
                 .delay(1000)
                 .then(() => {
                     this.getContainer()
-                        .get(DEFINITIONS.TIMER)
+                        .get(definitions.TIMER)
                         .stop(timerId);
                     resolve("Connected");
                 })

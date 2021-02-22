@@ -1,8 +1,5 @@
 import winston from "winston";
 
-// Types
-import { IGeneric } from "../types/generic";
-
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.json(),
@@ -15,7 +12,7 @@ export default class LoggerService {
    * @param error
    * @param message string
    */
-  error(error: IGeneric<any>, message = ""): void {
+  error(error: object, message = ""): void {
     logger.log("error", message, { error });
   }
 

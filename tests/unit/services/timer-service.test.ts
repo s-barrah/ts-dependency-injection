@@ -3,8 +3,7 @@ import chai from 'chai';
 import {
     DependencyInjection,
     TimerService,
-    CONFIGURATION,
-    DEFINITIONS,
+    Config,
     PromisifiedDelay
 } from '../../../src';
 
@@ -12,14 +11,15 @@ const expect = chai.expect;
 
 describe('TimerService - Class', () => {
     const di = new DependencyInjection({});
-    const timer = di.get(DEFINITIONS.TIMER);
+    const definitions = new Config().getDefinitions();
+    const timer = di.get(definitions.TIMER);
     const timerService = new TimerService(di);
 
     describe('should instantiate TimerService', () => {
 
         it('should output the methods', () => {
-            expect(JSON.stringify(di.get(DEFINITIONS.TIMER).start)).to.eql(JSON.stringify(timerService.start));
-            expect(JSON.stringify(di.get(DEFINITIONS.TIMER).stop)).to.eql(JSON.stringify(timerService.stop));
+            expect(JSON.stringify(di.get(definitions.TIMER).start)).to.eql(JSON.stringify(timerService.start));
+            expect(JSON.stringify(di.get(definitions.TIMER).stop)).to.eql(JSON.stringify(timerService.stop));
         });
 
         it('should start and stop the timer', function () {

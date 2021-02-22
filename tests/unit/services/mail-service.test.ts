@@ -3,8 +3,7 @@ import chai from 'chai';
 import {
     DependencyInjection,
     MailService,
-    CONFIGURATION,
-    DEFINITIONS,
+    Config,
 } from '../../../src';
 
 const expect = chai.expect;
@@ -12,7 +11,8 @@ const expect = chai.expect;
 describe('MailService - Class', () => {
     let response: string | null;
     const di = new DependencyInjection({});
-    const mail = di.get(DEFINITIONS.MAIL);
+    const definitions = new Config().getDefinitions();
+    const mail = di.get(definitions.MAIL);
     const mailService = new MailService(di);
 
     before((done) => {
@@ -31,7 +31,7 @@ describe('MailService - Class', () => {
     describe('should instantiate MailService', () => {
 
         it('should output the methods', () => {
-            expect(JSON.stringify(di.get(DEFINITIONS.MAIL).sendMail)).to.eql(JSON.stringify(mailService.sendMail));
+            expect(JSON.stringify(di.get(definitions.MAIL).sendMail)).to.eql(JSON.stringify(mailService.sendMail));
         });
 
         it('should send mail', function () {
