@@ -7,7 +7,7 @@ type Generic<T> = {
 };
 
 interface IConfig {
-  [index: string]: Generic<any>
+  [index: string]: Generic<any>;
 }
 
 export default class DependencyInjection {
